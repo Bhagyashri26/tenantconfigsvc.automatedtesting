@@ -1,0 +1,12 @@
+[
+{
+"albURL":"https://inforos1-alb.mingledev.infor.com/tenantconfigsvc",
+"AuthURL":"https://inforos1-alb.mingledev.infor.com/authorizationserver",
+"clientID":"4a785dfb004c09b686e55892e189cc7b",
+"clientSecret":"72ca2ac2118bbee0a6d6739c1d2b6959",
+"applicationServiceId":300,
+"serviceCode":"IONAPILogging",
+"servicecodetype":"Storage",
+"tenantId":"IONAPI_DEV"
+}
+]

@@ -1,0 +1,3760 @@
+{
+	"info": {
+		"_postman_id": "207236e4-6391-41a9-9b07-157f2387627e",
+		"name": "TenantConfigsvc.automatedcollection Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GenerateToken",
+			"item": [
+				{
+					"name": "GenerateToken",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c6e03337-7f4f-4571-9855-52e4aba13613",
+								"type": "text/javascript",
+								"exec": [
+									"var response = JSON.parse(responseBody);",
+									"pm.environment.set(\"access_token\", response.access_token);",
+									"",
+									"try",
+									"{",
+									"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"    ",
+									"    tests[\"Body contains access_token\"] = responseBody.has(\"access_token\");",
+									"    tests[\"access_token is not null\"] = response.access_token !== (null) ; //new",
+									"",
+									"    tests[\"Body contains token_type\"] = responseBody.has(\"token_type\");",
+									"    tests[\"token_type is not null\"] = response.token_type !== (null) ; //new",
+									"    ",
+									"    tests[\"Body contains expires_in\"] = responseBody.has(\"expires_in\");",
+									"    tests[\"expires_in is not null\"] = response.expires_in !== (null) ; //new",
+									"    console.log(\"Access token value is = \" + response.access_token);",
+									"}",
+									"catch(e)",
+									"{",
+									"  console.log(\"Failed to get the access token\");",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "4a785dfb004c09b686e55892e189cc7b",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "72ca2ac2118bbee0a6d6739c1d2b6959",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{AuthURL}}/as/v1/token",
+							"host": [
+								"{{AuthURL}}"
+							],
+							"path": [
+								"as",
+								"v1",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ClientOAuthKeyController",
+			"item": [
+				{
+					"name": "Get Oauthkey List",
+					"item": [
+						{
+							"name": "Get Oauthkey List with applicationServiceId 700",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0876f2f0-e8c1-4895-a4f2-125c7c75f641",
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Status code is 200\"] = responseCode.code === 200;",
+											"",
+											"try",
+											"{",
+											"    var response = JSON.parse(responseBody);",
+											"    console.log(\"ClientOAuthKeyController endpoint response is = \" + JSON.stringify(response));",
+											"    ",
+											"    tests[\"oauthKeyList is not null\"] = response.tenantHeaderList !== (null) ;//new",
+											"    tests[\"Body contains oauthKeyList\"] = responseBody.has(\"oauthKeyList\");",
+											"    ",
+											"    tests[\"Body contains id\"] = responseBody.has(\"id\");",
+											"    tests[\"id is not null\"] = response.id !== (null) ;//new",
+											"    ",
+											"    tests[\"Body contains applicationServiceId\"] = responseBody.has(\"applicationServiceId\");",
+											"    tests[\"applicationServiceId is not null\"] = response.applicationServiceId !== (null) ;//new",
+											"    ",
+											"    tests[\"Body contains consumerKey\"] = responseBody.has(\"consumerKey\");",
+											"    tests[\"consumerKey is not null\"] = response.consumerKey !== (null) ;//new",
+											"     ",
+											"    tests[\"Body contains consumerSecret\"] = responseBody.has(\"consumerSecret\");",
+											"    tests[\"consumerSecret is not null\"] = response.consumerSecret !== (null) ;//new",
+											"     ",
+											"    tests[\"Body contains algorithm\"] = responseBody.has(\"algorithm\");",
+											"    //console.log(\"Hiii\");",
+											"    ",
+											"    //pm.environment.set(\"consumerKey\", response.consumerKey);",
+											"    //pm.environment.set(\"applicationServiceid\", response.applicationServiceId);",
+											"    pm.environment.set(\"applicationServiceId\",response.oauthKeyList[0].applicationServiceId);",
+											"   pm.environment.set(\"consumerKey\", response.oauthKeyList[0].consumerKey);",
+											"   }",
+											"catch(e)",
+											"{",
+											"    console.log(\"Failed to get ClientOAuthKeyController endpoint response\");",
+											"}",
+											"",
+											"",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-infor-authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{albURL}}/api/v1/clientoauth/{{applicationServiceId}}",
+									"host": [
+										"{{albURL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"clientoauth",
+										"{{applicationServiceId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Oauthkey List with applicationServiceId 300",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "72fdc3c2-274f-44d8-a205-566040adbf7a",
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Status code is 200\"] = responseCode.code === 200;",
+											"",
+											"try",
+											"{",
+											"    var response = JSON.parse(responseBody);",
+											"    console.log(\"ClientOAuthKeyController endpoint response is = \" + JSON.stringify(response));",
+											"    ",
+											"    tests[\"oauthKeyList is not null\"] = response.tenantHeaderList !== (null) ;//new",
+											"    tests[\"Body contains oauthKeyList\"] = responseBody.has(\"oauthKeyList\");",
+											"    ",
+											"    tests[\"Body contains id\"] = responseBody.has(\"id\");",
+											"    tests[\"id is not null\"] = response.id !== (null) ;//new",
+											"    ",
+											"    tests[\"Body contains applicationServiceId\"] = responseBody.has(\"applicationServiceId\");",
+											"    tests[\"applicationServiceId is not null\"] = response.applicationServiceId !== (null) ;//new",
+											"    ",
+											"    tests[\"Body contains consumerKey\"] = responseBody.has(\"consumerKey\");",
+											"    tests[\"consumerKey is not null\"] = response.consumerKey !== (null) ;//new",
+											"     ",
+											"    tests[\"Body contains consumerSecret\"] = responseBody.has(\"consumerSecret\");",
+											"    tests[\"consumerSecret is not null\"] = response.consumerSecret !== (null) ;//new",
+											"     ",
+											"    tests[\"Body contains algorithm\"] = responseBody.has(\"algorithm\");",
+											"    //console.log(\"Hiii\");",
+											"    ",
+											"    //pm.environment.set(\"consumerKey\", response.consumerKey);",
+											"    //pm.environment.set(\"applicationServiceid\", response.applicationServiceId);",
+											"    pm.environment.set(\"applicationServiceId1\",response.oauthKeyList[0].applicationServiceId);",
+											"    pm.environment.set(\"consumerKey1\", response.oauthKeyList[0].consumerKey);",
+											"   }",
+											"catch(e)",
+											"{",
+											"    console.log(\"Failed to get ClientOAuthKeyController endpoint response\");",
+											"}",
+											"",
+											"",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-infor-authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{albURL}}/api/v1/clientoauth/300",
+									"host": [
+										"{{albURL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"clientoauth",
+										"300"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "User is able to get OAuthkey details",
+					"item": [
+						{
+							"name": "PositiveTestCases",
+							"item": [
+								{
+									"name": "User is able to get OAuthkey details using applicationServiceId 700",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "7000ce98-8622-45e7-8fcb-31dea99cc923",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 200\"] = responseCode.code === 200;",
+													"",
+													"try",
+													"{",
+													"    var response = JSON.parse(responseBody);",
+													"    console.log(\"Response is = \" + JSON.stringify(response));",
+													"    ",
+													"    var consumerKey= pm.environment.get(\"consumerKey\");",
+													"    tests[\"oAuthKey is not null\"] = response.oAuthKey !== (null) ; //new",
+													"    tests[\"Body contains oAuthKey\"] = responseBody.has(\"oAuthKey\");",
+													"    ",
+													"    tests[\"Body contains id\"] = responseBody.has(\"id\");",
+													"    tests[\"id is not null\"] = response.id !== (null) ; //new",
+													"    ",
+													"    tests[\"Body contains applicationServiceId\"] = responseBody.has(\"applicationServiceId\");",
+													"    tests[\"applicationServiceId is not null\"] = response.applicationServiceId !== (null) ; //new",
+													"    ",
+													"    tests[\"Body contains consumerKey\"] = responseBody.has(\"consumerKey\");",
+													"    tests[\"consumerKey is not null\"] = response.consumerKey !== (null) ; //new",
+													"    ",
+													"    tests[\"Body contains consumerSecret\"] = responseBody.has(\"consumerSecret\");",
+													"    tests[\"consumerSecret is not null\"] = response.consumerSecret !== (null) ; //new",
+													"    ",
+													"    tests[\"Body contains algorithm\"] = responseBody.has(\"algorithm\");",
+													"    ",
+													"     var applicationId=pm.environment.get(\"applicationServiceId\");",
+													"     console.log(applicationId);",
+													"    tests[\"Body contains 'applicationServiceId ' is matching\"] = response.oAuthKey.applicationServiceId===(applicationId);",
+													"    ",
+													"    var consumer=pm.environment.get(\"consumerKey\");",
+													"     console.log(applicationId);",
+													"    tests[\"Body contains 'consumerKey ' is matching\"] = response.oAuthKey.consumerKey===(consumer);",
+													"}",
+													"catch(e)",
+													"{",
+													"    console.log(\"Failed to get the endpoint response\");",
+													"}",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"applicationServiceId\":\"{{applicationServiceId}}\",\r\n  \"consumerKey\": \"{{consumerKey}}\"\r\n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/clientoauth",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"clientoauth"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "User is able to get OAuthkey details using applicationServiceId 300",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "cb535749-576c-44ce-937d-cd1ced1880da",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 200\"] = responseCode.code === 200;",
+													"",
+													"try",
+													"{",
+													"    var response = JSON.parse(responseBody);",
+													"    console.log(\"Response is = \" + JSON.stringify(response));",
+													"    ",
+													"    var consumerKey= pm.environment.get(\"consumerKey\");",
+													"    tests[\"oAuthKey is not null\"] = response.oAuthKey !== (null) ; //new",
+													"    tests[\"Body contains oAuthKey\"] = responseBody.has(\"oAuthKey\");",
+													"    ",
+													"    tests[\"Body contains id\"] = responseBody.has(\"id\");",
+													"    tests[\"id is not null\"] = response.id !== (null) ; //new",
+													"    ",
+													"    tests[\"Body contains applicationServiceId\"] = responseBody.has(\"applicationServiceId\");",
+													"    tests[\"applicationServiceId is not null\"] = response.applicationServiceId !== (null) ; //new",
+													"    ",
+													"    tests[\"Body contains consumerKey\"] = responseBody.has(\"consumerKey\");",
+													"    tests[\"consumerKey is not null\"] = response.consumerKey !== (null) ; //new",
+													"    ",
+													"    tests[\"Body contains consumerSecret\"] = responseBody.has(\"consumerSecret\");",
+													"    tests[\"consumerSecret is not null\"] = response.consumerSecret !== (null) ; //new",
+													"    ",
+													"    tests[\"Body contains algorithm\"] = responseBody.has(\"algorithm\");",
+													"    ",
+													"    var applicationId1=pm.environment.get(\"applicationServiceId1\");",
+													"    console.log(applicationId1);",
+													"    tests[\"Body contains 'applicationServiceId ' is matching\"] = response.oAuthKey.applicationServiceId===(applicationId1);",
+													"    ",
+													"    var consumer1=pm.environment.get(\"consumerKey1\");",
+													"    tests[\"Body contains 'consumerKey ' is matching\"] = response.oAuthKey.consumerKey===(consumer1);",
+													"}",
+													"catch(e)",
+													"{",
+													"    console.log(\"Failed to get the endpoint response\");",
+													"}",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"applicationServiceId\":\"{{applicationServiceId1}}\",\r\n  \"consumerKey\": \"{{consumerKey1}}\"\r\n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/clientoauth",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"clientoauth"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "NegativeTestCases",
+							"item": [
+								{
+									"name": "User should not get details without applicationserviceid",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "08d1d694-949f-40af-9f0a-98262fd8263f",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 400\"] = responseCode.code === 400;",
+													"console.log(\"Application service id is empty\");",
+													"    ",
+													"",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"applicationServiceId\":\"\",\r\n  \"consumerKey\": \"{{consumerKey}}\"\r\n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/clientoauth",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"clientoauth"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "User should not get details without consumerkey",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e02ac041-52cb-496a-93dc-e581ab023ea6",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 400\"] = responseCode.code === 400;",
+													"console.log(\"Consumer key is empty\");",
+													"  ",
+													"    ",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"applicationServiceId\":\"{{applicationServiceId}}\",\r\n  \"consumerKey\": \"\"\r\n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/clientoauth",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"clientoauth"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "TenantInfoController",
+			"item": [
+				{
+					"name": "All active tenants should be displayed",
+					"item": [
+						{
+							"name": "All active tenants should be displayed",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3dffd9b3-f3ef-49ac-bba0-de9e5b199e07",
+										"type": "text/javascript",
+										"exec": [
+											"try {",
+											"    var response = JSON.parse(responseBody);",
+											"    console.log(\"Endpoint response is = \" + JSON.stringify(response));",
+											"",
+											"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+											"    tests[\"tenantHeaderList is not null\"] = response.tenantHeaderList !== (null); //new",
+											"    tests[\"Body contains tenantHeaderList\"] = responseBody.has(\"tenantHeaderList\");",
+											"",
+											"    tests[\"Body contains tenantId\"] = responseBody.has(\"tenantId\");",
+											"    tests[\"tenantId is not null\"] = response.tenantId !== (null); //new",
+											"",
+											"    tests[\"Body contains connectionInfo\"] = responseBody.has(\"connectionInfo\");",
+											"    tests[\"connectionInfo is not null\"] = response.connectionInfo !== (null); //new",
+											"",
+											"    tests[\"Body contains dbType\"] = responseBody.has(\"dbType\");",
+											"    tests[\"dbType is not null\"] = response.dbType !== (null); //new",
+											"",
+											"    tests[\"Body contains serverName\"] = responseBody.has(\"serverName\");",
+											"    tests[\"serverName is not null\"] = response.serverName !== (null); //new",
+											"",
+											"    tests[\"Body contains portNo\"] = responseBody.has(\"portNo\"); //new",
+											"    tests[\"portNo is not null\"] = response.portNo !== (null); //new",
+											"",
+											"    tests[\"Body contains dbName\"] = responseBody.has(\"dbName\"); //new",
+											"    tests[\"dbName is not null\"] = response.dbName !== (null); //new",
+											"",
+											"    tests[\"Body contains userId\"] = responseBody.has(\"userId\");",
+											"    tests[\"userId is not null\"] = response.userId !== (null); //new",
+											"",
+											"    tests[\"Body contains password\"] = responseBody.has(\"password\");",
+											"    tests[\"password is not null\"] = response.password !== (null); //new",
+											"",
+											"    tests[\"Body contains propertyList\"] = responseBody.has(\"propertyList\");",
+											"    tests[\"propertyList is not null\"] = response.propertyList !== (null); //new",
+											"",
+											"    tests[\"Body contains serviceGroupId\"] = responseBody.has(\"serviceGroupId\");",
+											"    tests[\"serviceGroupId is not null\"] = response.serviceGroupId !== (null); //new",
+											"",
+											"    tests[\"Body contains status\"] = responseBody.has(\"status\");",
+											"    tests[\"status is not null\"] = response.status !== (null); //new",
+											"",
+											"    tests[\"Body contains updatedOn\"] = responseBody.has(\"updatedOn\");",
+											"    tests[\"updatedOn is not null\"] = response.updatedOn !== (null); //new",
+											"",
+											"    tests[\"Body contains name\"] = responseBody.has(\"name\"); //new",
+											"    tests[\"propertyList name is not null\"] = response.tenantHeaderList[0].connectionInfo.propertyList[0].name !== (null); //new",
+											"    ",
+											"    tests[\"Body contains value\"] = responseBody.has(\"value\"); //new",
+											"    tests[\"propertyList value is not null\"] = response.tenantHeaderList[0].connectionInfo.propertyList[1].value !== (null); //new",
+											"} catch (e) {",
+											"    console.log(\"Failed to get the endpoint details\");",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-infor-authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{albURL}}/api/v1/tenants",
+									"host": [
+										"{{albURL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tenants"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get Active tenats by using post",
+					"item": [
+						{
+							"name": "PositiveTestCases",
+							"item": [
+								{
+									"name": "Get Active tenats by using post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "ede23ef7-3fd4-4d50-82eb-e6bacc1f79e5",
+												"type": "text/javascript",
+												"exec": [
+													"",
+													"try {",
+													"    var response = JSON.parse(responseBody);",
+													"    console.log(\"Endpoint response is = \" + JSON.stringify(response));",
+													"",
+													"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+													"    tests[\"tenantHeaderList is not null\"] = response.tenantHeaderList !== (null); //new",
+													"    tests[\"Body contains tenantHeaderList\"] = responseBody.has(\"tenantHeaderList\");",
+													"",
+													"    tests[\"Body contains tenantId\"] = responseBody.has(\"tenantId\");",
+													"    tests[\"connectionInfo is not null\"] = response.connectionInfo !== (null); //new",
+													"",
+													"    tests[\"Body contains connectionInfo\"] = responseBody.has(\"connectionInfo\");",
+													"    tests[\"connectionInfo is not null\"] = response.connectionInfo !== (null); //new",
+													"",
+													"    tests[\"Body contains dbType\"] = responseBody.has(\"dbType\");",
+													"    tests[\"dbType is not null\"] = response.dbType !== (null); //new",
+													"",
+													"    tests[\"Body contains serverName\"] = responseBody.has(\"serverName\");",
+													"    tests[\"serverName is not null\"] = response.serverName !== (null); //new",
+													"",
+													"    tests[\"Body contains portNo\"] = responseBody.has(\"portNo\"); //new",
+													"    tests[\"portNo is not null\"] = response.portNo !== (null); //new",
+													"",
+													"    tests[\"Body contains dbName\"] = responseBody.has(\"dbName\"); //new",
+													"    tests[\"dbName is not null\"] = response.dbName !== (null); //new",
+													"",
+													"    tests[\"Body contains userId\"] = responseBody.has(\"userId\");",
+													"    tests[\"userId is not null\"] = response.userId !== (null); //new",
+													"",
+													"    tests[\"Body contains password\"] = responseBody.has(\"password\");",
+													"    tests[\"password is not null\"] = response.password !== (null); //new",
+													"",
+													"    tests[\"Body contains propertyList\"] = responseBody.has(\"propertyList\");",
+													"    tests[\"propertyList is not null\"] = response.propertyList !== (null); //new",
+													"",
+													"    tests[\"Body contains serviceGroupId\"] = responseBody.has(\"serviceGroupId\");",
+													"    tests[\"serviceGroupId is not null\"] = response.serviceGroupId !== (null); //new",
+													"",
+													"    tests[\"Body contains status\"] = responseBody.has(\"status\");",
+													"    tests[\"status is not null\"] = response.status !== (null); //new",
+													"",
+													"    tests[\"Body contains updatedOn\"] = responseBody.has(\"updatedOn\");",
+													"    tests[\"updatedOn is not null\"] = response.updatedOn !== (null); //new",
+													"",
+													"    tests[\"Body contains name\"] = responseBody.has(\"name\"); //new",
+													"    tests[\"propertyList name is not null\"] = response.tenantHeaderList[0].connectionInfo.propertyList[0].name !== (null); //new",
+													"    ",
+													"    tests[\"Body contains value\"] = responseBody.has(\"value\"); //new",
+													"    tests[\"propertyList value is not null\"] = response.tenantHeaderList[0].connectionInfo.propertyList[1].value !== (null); //new",
+													"} catch (e) {",
+													" ",
+													"    console.log(\"Failed to get the TenantInfoController endpoint details\");",
+													"}"
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"statusList\": [\r\n  \t\"NEW\",\r\n  \t\"ACTIVE\",\r\n    \"CREATING\",\r\n    \"INACTIVE\",\r\n    \"UNKNOWN\",\r\n    \"DELETED\"\r\n   \r\n  ]\r\n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/tenants",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"tenants"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "NegativeTestCases",
+							"item": [
+								{
+									"name": "Should not get active tenant only with empty statusList",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "456884cf-c4a9-416b-9978-9dafb56ea021",
+												"type": "text/javascript",
+												"exec": [
+													"if(responseCode.code === 500)",
+													"{",
+													"",
+													"tests[\"Status code is 500\"] = responseCode.code === 500;",
+													"tests[\"request body contain empty status list\"] = responseBody.has(\"error\");",
+													"pm.test(\"Internal Server Error\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.error).to.eql(\"Internal Server Error\");",
+													"});",
+													"",
+													"console.log(\"status list is empty\");",
+													"}",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"statusList\": [\r\n   \r\n  ]\r\n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/tenants",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"tenants"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Required request body is missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "990b976a-842e-40ff-a732-333a02ef823d",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 400 Because Required request body is missing\"] = responseCode.code === 400;",
+													"console.log(\"Required request body is missing\");",
+													"    ",
+													"",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/tenants",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"tenants"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get details of specific Tenant",
+					"item": [
+						{
+							"name": "Get details of specific Tenant",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "51a75241-11a3-4278-a137-cb50c5f41f92",
+										"type": "text/javascript",
+										"exec": [
+											"try",
+											"{",
+											"    var response = JSON.parse(responseBody);",
+											"    console.log(\"TenantInfoController endpoint header response is = \" + JSON.stringify(response));",
+											"    ",
+											"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+											"    tests[\"tenantHeader is not null\"] = response.tenantHeader !== (null) ; //new",
+											"    tests[\"Body contains tenantHeader\"] = responseBody.has(\"tenantHeader\");",
+											"    ",
+											"    tests[\"Body contains tenantId\"] = responseBody.has(\"tenantId\");",
+											"    tests[\"Body contains connectionInfo\"] = responseBody.has(\"connectionInfo\");",
+											"    tests[\"Body contains dbType\"] = responseBody.has(\"dbType\");",
+											"    tests[\"Body contains serverName\"] = responseBody.has(\"serverName\");",
+											"    tests[\"Body contains portNo\"] = responseBody.has(\"portNo\");//new",
+											"    tests[\"Body contains dbName\"] = responseBody.has(\"dbName\");//new",
+											"    tests[\"Body contains userId\"] = responseBody.has(\"userId\");",
+											"    tests[\"Body contains password\"] = responseBody.has(\"password\");",
+											"    ",
+											"    tests[\"Body contains propertyList\"] = responseBody.has(\"propertyList\");",
+											"    tests[\"propertyList is not null\"] = response.propertyList !== (null) ; //new",
+											"    ",
+											"    tests[\"Body contains serviceGroupId\"] = responseBody.has(\"serviceGroupId\");",
+											"    tests[\"Body contains status\"] = responseBody.has(\"status\");",
+											"    tests[\"Body contains updatedOn\"] = responseBody.has(\"updatedOn\");",
+											"}",
+											"catch(e)",
+											"{",
+											"    console.log(\"Failed to get the TenantInfoController endpoint header details\");",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-infor-authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{albURL}}/api/v1/tenants/{{tenantId}}/header",
+									"host": [
+										"{{albURL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tenants",
+										"{{tenantId}}",
+										"header"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "FeatureSetController",
+			"item": [
+				{
+					"name": "Get all the features list in the Environment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "be5c120d-0b19-4bd8-bca2-f853a87f44c3",
+								"type": "text/javascript",
+								"exec": [
+									"try {",
+									"    var response = JSON.parse(responseBody);",
+									"    console.log(\"FeatureSetController endpoint response is = \" + JSON.stringify(response));",
+									"",
+									"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"    tests[\"featureList is not null\"] = response.featureList !== (null); //new",
+									"    tests[\"Body contains 'featureList'\"] = responseBody.has(\"featureList\");",
+									"    ",
+									"    tests[\"Body contains 'featureCode'\"] = responseBody.has(\"featureCode\");",
+									"    tests[\"featureCode is not null\"] = response.featureCode !== (null); //new",
+									"    ",
+									"    tests[\"Body contains 'value'\"] = responseBody.has(\"value\");",
+									"    tests[\"value is not null\"] = response.value !== (null); //new",
+									"    ",
+									"    tests[\"Body contains 'statusId'\"] = responseBody.has(\"statusId\");",
+									"    tests[\"statusId is not null\"] = response.statusId !== (null); //new",
+									"    ",
+									"    tests[\"Body contains 'updatedOn'\"] = responseBody.has(\"updatedOn\");",
+									"    tests[\"updatedOn is not null\"] = response.updatedOn !== (null); //new",
+									"",
+									"    //  postman.setEnvironmentVariable(\"featureCode\", \"\");",
+									"    postman.setEnvironmentVariable(\"featureCode\", response.featureList[0].featureCode); //new",
+									"} catch (e) {",
+									"    console.log(\"Failed to get FeatureSetController endpoint response\");",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-infor-authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{albURL}}/api/v1/features",
+							"host": [
+								"{{albURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"features"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get feature code details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7cf55536-26cb-4ba7-9197-df8036d0c6e3",
+								"type": "text/javascript",
+								"exec": [
+									"try {",
+									"    var response = JSON.parse(responseBody);",
+									"    console.log(\"FeatureSetController endpoint response is = \" + JSON.stringify(response));",
+									"",
+									"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"    tests[\"feature is not null\"] = response.feature !== (null) ; //new",
+									"    tests[\"Body contains 'feature'\"] = responseBody.has(\"feature\");",
+									"    ",
+									"    tests[\"Body contains 'featureCode'\"] = responseBody.has(\"featureCode\");",
+									"    tests[\"featureCode is not null\"] = response.featureCode !== (null) ; //new",
+									"    ",
+									"    tests[\"Body contains 'value'\"] = responseBody.has(\"value\");",
+									"    tests[\"value is not null\"] = response.value !== (null) ; //new",
+									"    ",
+									"    tests[\"Body contains 'statusId'\"] = responseBody.has(\"statusId\");",
+									"    tests[\"statusId is not null\"] = response.statusId !== (null) ; //new",
+									"    ",
+									"    tests[\"Body contains 'updatedOn'\"] = responseBody.has(\"updatedOn\");",
+									"    tests[\"updatedOn is not null\"] = response.updatedOn !== (null) ; //new",
+									"    ",
+									"   var featurecode=pm.environment.get(\"featureCode\");",
+									"   tests[\"Body contains 'featureCode ' is matching\"] = response.feature.featureCode===(featurecode);",
+									"",
+									"} catch (e) {",
+									"    console.log(\"Failed to get FeatureSetController endpoint response\");",
+									"    ",
+									"}",
+									"",
+									"",
+									"",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-infor-authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{albURL}}/api/v1/features/{{featureCode}}",
+							"host": [
+								"{{albURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"features",
+								"{{featureCode}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get feature list of the specific Tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8f595eab-76ad-4326-9747-0428b0523bbe",
+								"type": "text/javascript",
+								"exec": [
+									"try",
+									"{",
+									"    var response = JSON.parse(responseBody);",
+									"    console.log(\"Endpoint response is = \" + JSON.stringify(response));",
+									"    ",
+									"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"    tests[\"featureList is not null\"] = response.feature !== (null) ; //new",
+									"    tests[\"Body contains 'featureList'\"] = responseBody.has(\"featureList\");",
+									"    ",
+									"    tests[\"Body contains 'featureCode'\"] = responseBody.has(\"featureCode\");",
+									"    tests[\"featureCode is not null\"] = response.featureCode !== (null) ; //new",
+									"  ",
+									"    tests[\"Body contains 'value'\"] = responseBody.has(\"value\");",
+									"    tests[\"value is not null\"] = response.value !== (null) ; //new",
+									"        ",
+									"    tests[\"Body contains 'statusId'\"] = responseBody.has(\"statusId\");",
+									"    tests[\"statusId is not null\"] = response.statusId !== (null) ; //new",
+									"        ",
+									"    tests[\"Body contains 'updatedOn'\"] = responseBody.has(\"updatedOn\");",
+									"    tests[\"updatedOn is not null\"] = response.updatedOn !== (null) ; //new",
+									"        ",
+									"}",
+									"catch(e)",
+									"{",
+									"    console.log(\"Failed to get the endpoint response\");",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-infor-authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{albURL}}/api/v1/tenants/{{tenantId}}/features",
+							"host": [
+								"{{albURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tenants",
+								"{{tenantId}}",
+								"features"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get feature code details related to specific tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ae54f6ed-ab31-4d6d-9d48-74aecb47309e",
+								"type": "text/javascript",
+								"exec": [
+									"try",
+									"{",
+									"    var response = JSON.parse(responseBody);",
+									"    console.log(\"Endpoint response is = \" + JSON.stringify(response));",
+									"    ",
+									"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"    tests[\"feature is not null\"] = response.feature !== (null) ; //new",
+									"    tests[\"Body contains 'feature'\"] = responseBody.has(\"feature\");",
+									"    ",
+									"    tests[\"Body contains 'featureCode'\"] = responseBody.has(\"featureCode\");",
+									"    tests[\"featureCode is not null\"] = response.featureCode !== (null) ; //new",
+									"    ",
+									"    tests[\"Body contains 'value'\"] = responseBody.has(\"value\");",
+									"    tests[\"value is not null\"] = response.value !== (null) ; //new",
+									"    ",
+									"    tests[\"Body contains 'statusId'\"] = responseBody.has(\"statusId\");",
+									"    tests[\"statusId is not null\"] = response.statusId !== (null) ; //new",
+									"    ",
+									"    tests[\"Body contains 'updatedOn'\"] = responseBody.has(\"updatedOn\");",
+									"    tests[\"updatedOn is not null\"] = response.updatedOn !== (null) ; //new",
+									"    ",
+									"    ",
+									"    var featurecode=pm.environment.get(\"featureCode\");",
+									"  tests[\"Body contains 'featureCode ' is matching\"] = response.feature.featureCode===(featurecode);",
+									"}",
+									"catch(e)",
+									"{",
+									"    console.log(\"Failed to get the endpoint response\");",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-infor-authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{albURL}}/api/v1/tenants/{{tenantId}}/features/{{featureCode}}",
+							"host": [
+								"{{albURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tenants",
+								"{{tenantId}}",
+								"features",
+								"{{featureCode}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "InfrastructureSettingController",
+			"item": [
+				{
+					"name": "Get settings list in the Environment",
+					"item": [
+						{
+							"name": "Get settings list in the Environment",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2225ff3c-fe41-4b83-bef9-63cb3db488a9",
+										"type": "text/javascript",
+										"exec": [
+											"try",
+											"{",
+											"    var response = JSON.parse(responseBody);",
+											"    console.log(\"InfrastructureSettingController endpoint GET response is = \" + JSON.stringify(response));",
+											"    ",
+											"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+											"    ",
+											"    tests[\"settingList is not null\"] = response.settingList !== (null) ; //new",
+											"    tests[\"Body contains settingList\"] = responseBody.has(\"settingList\");",
+											"    ",
+											"    tests[\"Body contains settingCode\"] = responseBody.has(\"settingCode\");",
+											"    tests[\"settingCode is not null\"] = response.settingCode !== (null) ; //new",
+											"        ",
+											"    tests[\"Body contains settingValue\"] = responseBody.has(\"settingValue\");",
+											"    tests[\"settingValue is not null\"] = response.settingValue !== (null) ; //new",
+											"        ",
+											"    tests[\"Body contains updatedOn\"] = responseBody.has(\"updatedOn\");",
+											"    tests[\"updatedOn is not null\"] = response.updatedOn !== (null) ; //new",
+											"    ",
+											"     //Adding settingCode into the array ",
+											"    var Settinglist = \"\";",
+											"    for (var index = 0; index < response.settingList.length; index++)",
+											"    {  ",
+											"          Settinglist +=\"\\\"\" +response.settingList[index].settingCode+ \"\\\"\" +\",\";",
+											"    }",
+											"    Settinglist = Settinglist.slice(0, (Settinglist.length)-1);",
+											"    console.log(Settinglist.length);",
+											"    pm.environment.set(\"Settinglength\", Settinglist.length);",
+											"    ",
+											"    Settinglist = \"[\" + Settinglist + \"]\";",
+											"",
+											"    pm.environment.set(\"Settinglist\", Settinglist);",
+											"",
+											"    ",
+											"}",
+											"catch(e)",
+											"{",
+											"    console.log(\"Failed to get InfrastructureSettingController endpoint GET response\");",
+											"}",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-infor-authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{albURL}}/api/v1/settings",
+									"host": [
+										"{{albURL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"settings"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get settings code list by post",
+					"item": [
+						{
+							"name": "PositiveTestCase",
+							"item": [
+								{
+									"name": "Get settings code list by post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "654d7754-0bcb-4783-8e91-321a67abe6b5",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 200\"] = responseCode.code === 200;",
+													"",
+													"try",
+													"{",
+													"    var response = JSON.parse(responseBody);",
+													"    console.log(\"InfrastructureSettingController endpoint POST response is = \" + JSON.stringify(response));",
+													" ",
+													"    tests[\"settingList is not null\"] = response.settingList !== (null) ; //new",
+													"    tests[\"Body contains settingList\"] = responseBody.has(\"settingList\");",
+													"    ",
+													"    tests[\"settingCode is not null\"] = response.settingCode !== (null) ; //new",
+													"    tests[\"Body contains settingCode\"] = responseBody.has(\"settingCode\");",
+													"    ",
+													"    tests[\"settingValue is not null\"] = response.settingValue !== (null) ; //new",
+													"    tests[\"Body contains settingValue\"] = responseBody.has(\"settingValue\");",
+													"    ",
+													"    tests[\"updatedOn is not null\"] = response.updatedOn !== (null) ; //new",
+													"    tests[\"Body contains updatedOn\"] = responseBody.has(\"updatedOn\");",
+													"    ",
+													"    postman.setEnvironmentVariable(\"settingCode\", response.settingList[0].settingCode);   //new",
+													"   var codeList = \"\";",
+													"    for (var index = 0; index < response.settingList.length; index++)",
+													"    {  ",
+													"          codeList +=\"\\\"\" +response.settingList[index].settingCode+ \"\\\"\" +\",\";",
+													"    }",
+													"    codeList = codeList.slice(0, (codeList.length)-1);",
+													"    console.log(codeList);",
+													"    codeList = \"[\" + codeList + \"]\";",
+													"",
+													"    pm.environment.set(\"codeList\", codeList);",
+													"    ",
+													"}",
+													"catch(e)",
+													"{",
+													"    console.log(\"Failed to get InfrastructureSettingController endpoint POST response\");",
+													"}",
+													"",
+													"",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"codeList\": \r\n  {{Settinglist}}\r\n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/settings",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"settings"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "NegativeTestCase",
+							"item": [
+								{
+									"name": "Should not get setting list with empty codeList",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "ee811770-d22c-4a0c-b9f0-b4d9fe1ad641",
+												"type": "text/javascript",
+												"exec": [
+													"if(responseCode.code === 500)",
+													"{",
+													"",
+													"tests[\"Status code is 500\"] = responseCode.code === 500;",
+													"tests[\"request body contain empty code list\"] = responseBody.has(\"error\");",
+													"pm.test(\"Internal Server Error\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.error).to.eql(\"Internal Server Error\");",
+													"});",
+													"",
+													"console.log(\"Code list is empty\");",
+													"}",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"codeList\": \r\n []\r\n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/settings",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"settings"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Required request body is missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "5a59ee43-1537-43df-9ce3-8b9581fff9b3",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 400 Because Required request body is missing\"] = responseCode.code === 400;",
+													"console.log(\"Required request body is missing\");",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/settings",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"settings"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get setting code details",
+					"item": [
+						{
+							"name": "Get setting code details",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "adce766e-93c1-44d5-afaf-0253b5e07f3d",
+										"type": "text/javascript",
+										"exec": [
+											"",
+											"",
+											"try",
+											"{",
+											"    var response = JSON.parse(responseBody);",
+											"    console.log(\"The endpoint response is = \" + JSON.stringify(response));",
+											"    ",
+											"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+											"    tests[\"setting is not null\"] = response.setting !== (null) ; //new",
+											"    tests[\"Body contains setting\"] = responseBody.has(\"setting\");",
+											"    ",
+											"    tests[\"Body contains settingCode\"] = responseBody.has(\"settingCode\");",
+											"    tests[\"settingCode is not null\"] = response.settingCode !== (null) ; //new",
+											"    ",
+											"    tests[\"Body contains settingValue\"] = responseBody.has(\"settingValue\");",
+											"    tests[\"settingValue is not null\"] = response.settingValue !== (null) ; //new",
+											"    ",
+											"    tests[\"Body contains updatedOn\"] = responseBody.has(\"updatedOn\");",
+											"    tests[\"updatedOn is not null\"] = response.updatedOn !== (null) ; //new",
+											"    ",
+											"    var settingcode=pm.environment.get(\"settingCode\");",
+											"    tests[\"Body contains 'settingcode ' is matching\"] = response.setting.settingCode===(settingcode);",
+											"}",
+											"catch(e)",
+											"{",
+											"    console.log(\"Failed to get the endpoint response\");",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-infor-authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{albURL}}/api/v1/settings/{{settingCode}}",
+									"host": [
+										"{{albURL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"settings",
+										"{{settingCode}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "ServiceConfigurationController",
+			"item": [
+				{
+					"name": "Get service configuration list for specific tenant",
+					"item": [
+						{
+							"name": "Get service configuration list for specific tenant",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6f96d41e-d2a4-4593-b191-117eda3e92f0",
+										"type": "text/javascript",
+										"exec": [
+											"try",
+											"{",
+											"    var response = JSON.parse(responseBody);",
+											"    console.log(\"ServiceConfigurationController endpoint response is = \" + JSON.stringify(response));",
+											"    ",
+											"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+											"    tests[\"serviceConfigurationList is not null\"] = response.serviceConfigurationList !== (null) ; //new",
+											"    tests[\"Body contains serviceConfiguration\"] = responseBody.has(\"serviceConfiguration\");",
+											"    tests[\"Body contains serviceConfigurationId\"] = responseBody.has(\"serviceConfigurationId\");",
+											"    tests[\"Body contains serviceName\"] = responseBody.has(\"serviceName\");",
+											"    tests[\"Body contains serviceCode\"] = responseBody.has(\"serviceCode\");",
+											"    tests[\"Body contains account\"] = responseBody.has(\"account\");",
+											"    tests[\"Body contains parameterList\"] = responseBody.has(\"parameterList\");",
+											"     ",
+											"     //Adding serviceCode into the array ",
+											"    var servicecodeList = \"\";",
+											"    for (var index = 0; index < response.serviceConfigurationList.length; index++)",
+											"    {  ",
+											"      servicecodeList +=\"\\\"\" +response.serviceConfigurationList[index].serviceCode+ \"\\\"\" +\",\";",
+											"    }",
+											"    servicecodeList = servicecodeList.slice(0, (servicecodeList.length)-1);",
+											"",
+											"    console.log(servicecodeList);",
+											"    servicecodeList = \"[\" + servicecodeList + \"]\";",
+											"",
+											"    pm.environment.set(\"servicecodeList\", servicecodeList);",
+											"    ",
+											"    pm.environment.set(\"sourceServiceName\",response.serviceConfigurationList[6].serviceName);",
+											"    pm.environment.set(\"targetServiceName\",response.serviceConfigurationList[7].serviceName);",
+											"",
+											"}",
+											"catch(e)",
+											"{",
+											"    console.log(\"Failed to get ServiceConfigurationController endpoint GET response\");",
+											"}",
+											"",
+											"",
+											"",
+											"",
+											"",
+											"",
+											""
+										]
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "d515f705-ef30-4975-b5ba-a6f13fed4047",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-infor-authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{albURL}}/api/v1/tenants/{{tenantId}}/serviceconfigs",
+									"host": [
+										"{{albURL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tenants",
+										"{{tenantId}}",
+										"serviceconfigs"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get service configurations",
+					"item": [
+						{
+							"name": "Get service configurations",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6841d51c-51a1-480a-a9a1-a7878147e46c",
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Status code is 200\"] = responseCode.code === 200;",
+											"",
+											"try",
+											"{",
+											"    var response = JSON.parse(responseBody);",
+											"    console.log(\"Endpoint response is = \" + JSON.stringify(response));",
+											"    ",
+											"    tests[\"serviceConfiguration is not null\"] = response.serviceConfiguration !== (null) ; //new",
+											"    tests[\"Body contains serviceConfiguration\"] = responseBody.has(\"serviceConfiguration\");",
+											"    tests[\"Body contains serviceConfigurationId\"] = responseBody.has(\"serviceConfigurationId\");",
+											"    tests[\"serviceConfigurationId is not null\"] = response.serviceConfigurationId !== (null) ; //new",
+											"    tests[\"Body contains serviceName\"] = responseBody.has(\"serviceName\");",
+											"    tests[\"serviceName is not null\"] = response.serviceName !== (null) ; //new",
+											"    tests[\"Body contains serviceCode\"] = responseBody.has(\"serviceCode\");",
+											"    tests[\"serviceCode is not null\"] = response.serviceCode !== (null) ; //new",
+											"    tests[\"Body contains account\"] = responseBody.has(\"account\");",
+											"    tests[\"account is not null\"]=response.serviceConfiguration.account !==(null); ",
+											"    tests[\"Body contains accountId\"] = responseBody.has(\"accountId\");",
+											"    tests[\"Body contains accountName\"] = responseBody.has(\"accountName\");",
+											"    tests[\"Body contains accessKey\"] = responseBody.has(\"accessKey\");",
+											"    tests[\"Body contains secretKey\"] = responseBody.has(\"secretKey\");",
+											"    tests[\"Body contains parameterList\"] = responseBody.has(\"parameterList\");",
+											"    tests[\"parameterList is not null\"]=response.serviceConfiguration.parameterList !==(null); ",
+											"    tests[\"parameterList key is not null\"]=response.serviceConfiguration.parameterList[0].key !==(null); ",
+											"    tests[\"parameterList value is not null\"]=response.serviceConfiguration.parameterList[0].value !==(null); ",
+											"    ",
+											"    var servicecode=pm.variables.get(\"serviceCode\");",
+											"    console.log(servicecode);",
+											"  tests[\"Body contains 'servicecode ' is matching\"] = response.serviceConfiguration.serviceCode===(servicecode);",
+											"  ",
+											"",
+											"}",
+											"catch(e)",
+											"{",
+											"    console.log(\"Failed to get endpoint response\");",
+											"}",
+											"",
+											""
+										]
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "8e37ffc8-a53c-4c8c-8914-2cd09f6b11df",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-infor-authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{albURL}}/api/v1/serviceconfigs/{{serviceCode}}",
+									"host": [
+										"{{albURL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"serviceconfigs",
+										"{{serviceCode}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get service configurations by post",
+					"item": [
+						{
+							"name": "PositiveTestCase",
+							"item": [
+								{
+									"name": "Get service configurations by post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "a8da246e-573b-4766-b20c-0af66b137f5f",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 200\"] = responseCode.code === 200;",
+													"",
+													"try",
+													"{",
+													"    var response = JSON.parse(responseBody);",
+													"    console.log(\"Endpoint response is = \" + JSON.stringify(response));",
+													"    ",
+													"    tests[\"serviceConfigurationList is not null\"] = response.serviceConfigurationList !== (null) ; //new",
+													"    tests[\"Body contains serviceConfigurationList\"] = responseBody.has(\"serviceConfigurationList\");",
+													"    tests[\"Body contains serviceConfigurationId\"] = responseBody.has(\"serviceConfigurationId\");",
+													"    tests[\"Body contains serviceName\"] = responseBody.has(\"serviceName\");",
+													"    tests[\"Body contains serviceCode\"] = responseBody.has(\"serviceCode\");",
+													"    tests[\"Body contains account\"] = responseBody.has(\"account\");",
+													"    tests[\"Body contains parameterList\"] = responseBody.has(\"parameterList\");",
+													"  //  pm.variables.get(\"servicecodeList\");",
+													"//console.log(servicecodeList);",
+													"",
+													"}",
+													"catch(e)",
+													"{",
+													"    console.log(\"Failed to get endpoint response\");",
+													"}",
+													"",
+													""
+												]
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "9351f717-f362-445d-9f08-7a4eb97fdd33",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"serviceCodeList\": \n {{servicecodeList}}\n\n \n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/tenants/{{tenantId}}/serviceconfigs",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"tenants",
+												"{{tenantId}}",
+												"serviceconfigs"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "NegativeTestCase",
+							"item": [
+								{
+									"name": "Should not get service configuration with empty servicecodeList",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e614af5b-7540-4c35-89dd-89b7b4daec9a",
+												"type": "text/javascript",
+												"exec": [
+													"",
+													"",
+													"if(responseCode.code === 500)",
+													"{",
+													"",
+													"tests[\"Status code is 500\"] = responseCode.code === 500;",
+													"tests[\"request body contain empty servicecode list\"] = responseBody.has(\"error\");",
+													"pm.test(\"Internal Server Error\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.error).to.eql(\"Internal Server Error\");",
+													"});",
+													"",
+													"console.log(\"serviceCode list is empty\");",
+													"}",
+													""
+												]
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "9351f717-f362-445d-9f08-7a4eb97fdd33",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"serviceCodeList\": \n[]\n \n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/tenants/{{tenantId}}/serviceconfigs",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"tenants",
+												"{{tenantId}}",
+												"serviceconfigs"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Required request body is missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "7b84a023-aa43-4d2b-90b9-2f650e715927",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 400 Because Required request body is missing\"] = responseCode.code === 400;",
+													"console.log(\"Required request body is missing\");",
+													"    ",
+													"",
+													"",
+													""
+												]
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "9351f717-f362-445d-9f08-7a4eb97fdd33",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/tenants/{{tenantId}}/serviceconfigs",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"tenants",
+												"{{tenantId}}",
+												"serviceconfigs"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get service configurations in the specific tenant with specific service code",
+					"item": [
+						{
+							"name": "Get service configurations in the specific tenant with specific service code",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "cba50b49-4cdf-472f-86cd-5851be19f766",
+										"type": "text/javascript",
+										"exec": [
+											"tests[\"Status code is 200\"] = responseCode.code === 200;",
+											"",
+											"try",
+											"{",
+											"    var response = JSON.parse(responseBody);",
+											"    console.log(\"Endpoint response is = \" + JSON.stringify(response));",
+											"    ",
+											"    tests[\"serviceConfiguration is not null\"] = response.serviceConfiguration !== (null) ; //new",
+											"    tests[\"Body contains serviceConfiguration\"] = responseBody.has(\"serviceConfiguration\");",
+											"    tests[\"Body contains serviceConfigurationId\"] = responseBody.has(\"serviceConfigurationId\");",
+											"    tests[\"Body contains serviceName\"] = responseBody.has(\"serviceName\");",
+											"    tests[\"Body contains serviceCode\"] = responseBody.has(\"serviceCode\");",
+											"    tests[\"Body contains account\"] = responseBody.has(\"account\");",
+											"    tests[\"account is not null\"]=response.serviceConfiguration.account !==(null); ",
+											"    tests[\"Body contains parameterList\"] = responseBody.has(\"parameterList\");",
+											"    tests[\"parameterList is not null\"]=response.serviceConfiguration.parameterList !==(null); ",
+											"    ",
+											"    var servicecode= pm.variables.get(\"serviceCode\");",
+											"    tests[\"Body contains 'serviceCode ' is matching\"] = response.serviceConfiguration.serviceCode===(servicecode);",
+											"   }",
+											"catch(e)",
+											"{",
+											"    console.log(\"Failed to get endpoint response\");",
+											"}",
+											"",
+											"",
+											"",
+											"",
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-infor-authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{albURL}}/api/v1/tenants/{{tenantId}}/serviceconfigs/{{serviceCode}}",
+									"host": [
+										"{{albURL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"tenants",
+										"{{tenantId}}",
+										"serviceconfigs",
+										"{{serviceCode}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "TenantConfigController",
+			"item": [
+				{
+					"name": "Health check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "13d50f24-1e35-4421-810e-75f672b2a520",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-infor-authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{albURL}}/healthcheck",
+							"host": [
+								"{{albURL}}"
+							],
+							"path": [
+								"healthcheck"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Status Monitor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "040484b0-7ccd-47ba-8308-3b21689f86e5",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try",
+									"{",
+									"    var response = JSON.parse(responseBody);",
+									"    console.log(\"statusmonitor endpoint response is = \" + JSON.stringify(response));",
+									"}",
+									"catch(e)",
+									"{",
+									"    console.log(\"Failed to get the statusmonitor endpoint details\");",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-infor-authrizaton",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{albURL}}/statusmonitor",
+							"host": [
+								"{{albURL}}"
+							],
+							"path": [
+								"statusmonitor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Tenant info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "275ed73c-e629-4aa4-8011-39c692d8fdbb",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try",
+									"{",
+									"    var response = JSON.parse(responseBody);",
+									"     tests[\"versionNumber is not null\"] = response.versionNumber !== (null) ; //new",
+									"     tests[\"buildNumber is not null\"] = response.buildNumber !== (null) ; //new",
+									"     tests[\"applicationName is not null\"] = response.applicationName !== (null) ; //new",
+									"     tests[\"buildDate is not null\"] = response.buildDate !== (null) ; //new",
+									"     tests[\"Body contains versionNumber\"] = responseBody.has(\"versionNumber\");",
+									"     tests[\"Body contains buildNumber\"] = responseBody.has(\"buildNumber\");",
+									"     tests[\"Body contains applicationName\"] = responseBody.has(\"applicationName\");",
+									"     tests[\"Body contains buildDate\"] = responseBody.has(\"buildDate\");",
+									"}",
+									"catch(e)",
+									"{",
+									"    console.log(\"Failed to get the statusmonitor endpoint details\");",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{albURL}}/info",
+							"host": [
+								"{{albURL}}"
+							],
+							"path": [
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "WebServiceController",
+			"item": [
+				{
+					"name": "Get  webservices list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fd06dbf9-9180-44af-9b26-67960edd3967",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try",
+									"{",
+									"    var response = JSON.parse(responseBody);",
+									"    console.log(\"WebServiceController endpoint GET response is = \" + JSON.stringify(response));",
+									"    ",
+									"    tests[\"webServiceList is not null\"] = response.webServiceList !== (null) ; //new",
+									"    tests[\"Body contains webServiceList\"] = responseBody.has(\"webServiceList\");",
+									"    tests[\"webServiceName is not null\"] = response.webServiceName !== (null) ; //new",
+									"    tests[\"Body contains webServiceName\"] = responseBody.has(\"webServiceName\");",
+									"    tests[\"url is not null\"] = response.url !== (null) ; //new",
+									"    tests[\"Body contains url\"] = responseBody.has(\"url\");",
+									"    ",
+									"    postman.setEnvironmentVariable(\"webServiceName\", response.webServiceList[0].webServiceName);",
+									"}",
+									"catch(e)",
+									"{",
+									"    console.log(\"Failed to get the WebServiceController endpoint GET response details\");",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-infor-authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{albURL}}/api/v1/webservices",
+							"host": [
+								"{{albURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"webservices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get details of webservice name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0f80e4e3-bf62-4814-9ef6-13d59b510fb6",
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"try",
+									"{",
+									"    var response = JSON.parse(responseBody);",
+									"    console.log(\"WebServiceController endpoint GET response details for webservice = \" + JSON.stringify(response));",
+									"    ",
+									"    tests[\"webService is not null\"] = response.webService !== (null) ; //new",
+									"    tests[\"Body contains webService\"] = responseBody.has(\"webService\");",
+									"    tests[\"Body contains webServiceName\"] = responseBody.has(\"webServiceName\");",
+									"    tests[\"webServiceName is not null\"] = response.webServiceName !== (null) ; //new",
+									"    tests[\"Body contains url\"] = responseBody.has(\"url\");",
+									"    tests[\"url is not null\"] = response.url !== (null) ; //new",
+									"    ",
+									"    var webservice=pm.environment.get(\"webServiceName\");",
+									"  tests[\"Body contains 'webServiceName ' is matching\"] = response.webService.webServiceName===(webservice);",
+									"",
+									"}",
+									"catch(e)",
+									"{",
+									"    console.log(\"Failed to get the WebServiceController response details for a given webservice\");",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-infor-authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{albURL}}/api/v1/webservices/{{webServiceName}}",
+							"host": [
+								"{{albURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"webservices",
+								"{{webServiceName}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TenantServiceConfigController",
+			"item": [
+				{
+					"name": "Get system configuration",
+					"item": [
+						{
+							"name": "Get system configuration",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0aeee73c-7865-4765-b23b-5521617da2b7",
+										"type": "text/javascript",
+										"exec": [
+											"try",
+											"{",
+											"    var response = JSON.parse(responseBody);",
+											"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+											"    tests[\"Body contains serviceConfigurationList\"] = responseBody.has(\"serviceConfigurationList\");",
+											"    tests[\"serviceConfigurationList is not null\"] = response.serviceConfigurationList !== (null) ;",
+											"    ",
+											"    tests[\"Body contains serviceConfigurationId\"] = responseBody.has(\"serviceConfigurationId\");",
+											"    tests[\"serviceConfigurationId is not null\"] = response.serviceConfigurationId !== (null) ;",
+											"    ",
+											"    tests[\"Body contains serviceName\"] = responseBody.has(\"serviceName\");",
+											"    tests[\"serviceName is not null\"] = response.serviceName !== (null) ;",
+											"    ",
+											"    tests[\"Body contains serviceCode\"] = responseBody.has(\"serviceCode\");",
+											"    tests[\"serviceCode is not null\"] = response.serviceCode !== (null) ;",
+											"    ",
+											"    tests[\"Body contains account\"] = responseBody.has(\"account\");",
+											"    tests[\"account is not null\"] = response.account !== (null) ;",
+											"    ",
+											"    tests[\"Body contains accountId\"] = responseBody.has(\"accountId\");",
+											"    tests[\"accountId is not null\"] = response.accountId !== (null) ;",
+											"",
+											"    tests[\"Body contains accountName\"] = responseBody.has(\"accountName\");",
+											"    tests[\"accountName is not null\"] = response.accountName !== (null) ;",
+											"",
+											"    tests[\"Body contains secretKey\"] = responseBody.has(\"secretKey\");",
+											"    tests[\"secretKey is not null\"] = response.secretKey !== (null) ;",
+											"",
+											"    tests[\"Body contains accessKey\"] = responseBody.has(\"accessKey\");",
+											"    tests[\"accessKey is not null\"] = response.accessKey !== (null) ;",
+											"",
+											"    ",
+											"    tests[\"parameterList is not null\"] = response.parameterList !== (null) ;",
+											"    tests[\"Body contains parameterList\"] = responseBody.has(\"parameterList\");",
+											"    ",
+											"    tests[\"Body contains 'key'\"] = responseBody.has(\"key\");",
+											"    tests[\"key is not null\"]=response.serviceConfigurationList.key !==(null);",
+											"    ",
+											"    tests[\"Body contains 'value'\"] = responseBody.has(\"value\");",
+											"    ",
+											"    //Set the serviceCode and serviceName in new environment variables",
+											"    pm.environment.set(\"serviceCode\", response.serviceConfigurationList[0].serviceCode);",
+											"    pm.environment.set(\"serviceName\", response.serviceConfigurationList[0].serviceName);",
+											"",
+											"       //Store the parameterList json o/p in new environment variable",
+											"    pm.environment.set(\"parameterListArray\", JSON.stringify(response.serviceConfigurationList[0].parameterList));",
+											"}",
+											"catch(e)",
+											"{",
+											"    console.log(\"Failed to get endpoint response\");",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Infor-Coleman-Identity2",
+										"value": "{{Identity2}}"
+									},
+									{
+										"key": "X-Infor-Coleman-TenantId",
+										"value": "{{TenantId}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-infor-authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{albURL}}/api/v1/admin/serviceconfigurations/{{serviceCode}}",
+									"host": [
+										"{{albURL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"serviceconfigurations",
+										"{{serviceCode}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Service code type serviceconfigs",
+					"item": [
+						{
+							"name": "NoSQL Service code type serviceconfigs",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6c7a2c7d-e4bc-4ba8-bc5b-9fe0709b3c6d",
+										"type": "text/javascript",
+										"exec": [
+											"try{",
+											"        var response = JSON.parse(responseBody);",
+											"",
+											"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+											"    tests[\"Body contains serviceConfigurationList\"] = responseBody.has(\"serviceConfigurationList\");",
+											"    tests[\"serviceConfigurationList is not null\"] = response.serviceConfigurationList !== (null) ;",
+											"    ",
+											"    tests[\"Body contains serviceConfigurationId\"] = responseBody.has(\"serviceConfigurationId\");",
+											"    tests[\"serviceConfigurationId is not null\"] = response.serviceConfigurationId !== (null);",
+											"    ",
+											"    tests[\"Body contains serviceName\"] = responseBody.has(\"serviceName\");",
+											"    tests[\"serviceName is not null\"] = response.serviceName !== (null) ;",
+											"    ",
+											"    tests[\"Body contains serviceCode\"] = responseBody.has(\"serviceCode\");",
+											"    tests[\"serviceCode is not null\"] = response.serviceCode !== (null) ;",
+											"    ",
+											"    tests[\"Body contains account\"] = responseBody.has(\"account\");",
+											"    tests[\"account is not null\"] = response.account !== (null) ;",
+											"    ",
+											"   ",
+											"    tests[\"Body contains accountId\"] = responseBody.has(\"accountId\");",
+											"    tests[\"accountId is not null\"] = response.accountId !== (null) ;",
+											"",
+											"    tests[\"Body contains accountName\"] = responseBody.has(\"accountName\");",
+											"    tests[\"accountName is not null\"] = response.accountName !== (null) ;",
+											"",
+											"    tests[\"Body contains secretKey\"] = responseBody.has(\"secretKey\");",
+											"    tests[\"secretKey is not null\"] = response.secretKey !== (null) ;",
+											"",
+											"    tests[\"Body contains accessKey\"] = responseBody.has(\"accessKey\");",
+											"    tests[\"accessKey is not null\"] = response.accessKey !== (null) ;",
+											"",
+											"    ",
+											"    tests[\"Body contains parameterList\"] = responseBody.has(\"parameterList\");",
+											"    tests[\"parameterList is not null\"] = response.parameterList !== (null) ;",
+											"    ",
+											"    tests[\"Body contains 'key'\"] = responseBody.has(\"key\");",
+											"    tests[\"key is not null\"]=response.serviceConfigurationList.key !==(null);",
+											"    ",
+											"    tests[\"Body contains 'value'\"] = responseBody.has(\"value\");",
+											"  }",
+											"catch(e){",
+											"    console.log(e );",
+											"}"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Infor-Coleman-Identity2",
+										"value": "{{Identity2}}"
+									},
+									{
+										"key": "X-Infor-Coleman-TenantId",
+										"value": "{{TenantId}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "x-infor-authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{albURL}}/api/v1/admin/servicetypes/NoSQL/serviceconfigs",
+									"host": [
+										"{{albURL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"admin",
+										"servicetypes",
+										"NoSQL",
+										"serviceconfigs"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Update service configurations",
+					"item": [
+						{
+							"name": "PositiveTestCases",
+							"item": [
+								{
+									"name": "Update service configurations",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "6371013f-8607-4bc7-a7e4-5ee205bf16b6",
+												"type": "text/javascript",
+												"exec": [
+													"try{",
+													"    ",
+													"   if(pm.test(\"Status code is 200\", function () {pm.response.to.have.status(200);})) ",
+													"   {",
+													"  ",
+													"        var response = JSON.parse(responseBody);",
+													"    tests[\"Body contains 'serviceName'\"] = responseBody.has(\"serviceName\");",
+													"    tests[\"serviceName is not null\"]=response.serviceName !==(null); ",
+													"    ",
+													"    tests[\"Body contains 'serviceCode'\"] = responseBody.has(\"serviceCode\");",
+													"    tests[\"serviceCode is not null\"]=response.serviceCode !==(null);",
+													"   ",
+													"    tests[\"Body contains 'success'\"] = responseBody.has(\"success\");",
+													"    ",
+													"    tests[\"parameterList is not null\"]=response.parameterList !==(null); ",
+													"    tests[\"Body contains 'parameterList'\"] = responseBody.has(\"parameterList\");",
+													"    ",
+													"    ",
+													"    pm.test(\"Body matches string\", function () {",
+													"    pm.expect(pm.response.text()).to.include(\"Success\");",
+													"});",
+													"}",
+													"}",
+													"",
+													"catch(e){",
+													"     console.log(e );",
+													"}"
+												]
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "c0ba20e4-091b-41ce-b6f2-6050f718375a",
+												"type": "text/javascript",
+												"exec": [
+													"var parameterlist = JSON.parse(pm.environment.get(\"parameterListArray\"));",
+													"",
+													"var newkey = \"\";",
+													"var updatedValue = \"\";",
+													"for (var index = 0; index < parameterlist.length; index++)",
+													"{  ",
+													"    updatedValue = parameterlist[index].value + \"_updated\";",
+													"    newkey += \"\\\"\" + parameterlist[index].key + \"\\\"\" + \":\" + \"\\\"\" + updatedValue + \"\\\"\" + \",\";",
+													"}",
+													"newkey = newkey.slice(0, (newkey.length)-1);",
+													"",
+													"console.log(newkey);",
+													"//pm.environment.set(\"updatedParameterList1\", newkey);",
+													"newkey = \"{\" + newkey + \"}\";",
+													"",
+													"pm.environment.set(\"updatedParameterList\", newkey);",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "X-Infor-Coleman-TenantId",
+												"value": "{{TenantId}}"
+											},
+											{
+												"key": "X-Infor-Coleman-Identity2",
+												"value": "{{Identity2}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\n{\n  \"serviceCode\":\"{{serviceCode}}\",\n  \"serviceName\":\"{{serviceName}}\",\n  \"parameterList\":{{updatedParameterList}}\n} \n]"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/serviceconfigurations",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"serviceconfigurations"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Revert to original service configuration",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c2afe997-238b-416a-8bba-7c8883c823d4",
+												"type": "text/javascript",
+												"exec": [
+													"try{",
+													"    ",
+													"   if(pm.test(\"Status code is 200\", function () {pm.response.to.have.status(200);})) ",
+													"   {",
+													"   var response = JSON.parse(responseBody);",
+													"    tests[\"Body contains 'serviceName'\"] = responseBody.has(\"serviceName\");",
+													"    tests[\"serviceName is not null\"]=response.serviceName !==(null); ",
+													"    ",
+													"    tests[\"Body contains 'serviceCode'\"] = responseBody.has(\"serviceCode\");",
+													"    tests[\"serviceCode is not null\"]=response.serviceCode !==(null);",
+													"   ",
+													"    tests[\"Body contains 'success'\"] = responseBody.has(\"success\");",
+													"    ",
+													"    tests[\"parameterList is not null\"]=response.parameterList !==(null); ",
+													"    tests[\"Body contains 'parameterList'\"] = responseBody.has(\"parameterList\");",
+													"    ",
+													"    ",
+													"    pm.test(\"Body matches string\", function () {",
+													"    pm.expect(pm.response.text()).to.include(\"Success\");",
+													"});",
+													"",
+													"   }",
+													"}",
+													"",
+													"catch(e){",
+													"     console.log(e );",
+													"}"
+												]
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "77bd3571-0a15-4fba-ad40-92c5a7e14761",
+												"type": "text/javascript",
+												"exec": [
+													"var parameterlist = JSON.parse(pm.environment.get(\"parameterListArray\"));",
+													"",
+													"var newkey = \"\";",
+													"var updatedValue = \"\";",
+													"for (var index = 0; index < parameterlist.length; index++)",
+													"{  ",
+													"   ",
+													"    newkey += \"\\\"\" + parameterlist[index].key + \"\\\"\" + \":\" + \"\\\"\" +  parameterlist[index].value + \"\\\"\" + \",\";",
+													"}",
+													"newkey = newkey.slice(0, (newkey.length)-1);",
+													"",
+													"console.log(newkey);",
+													"//pm.environment.set(\"updatedParameterList1\", newkey);",
+													"newkey = \"{\" + newkey + \"}\";",
+													"",
+													"pm.environment.set(\"updatedParameterList\", newkey);"
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "X-Infor-Coleman-TenantId",
+												"value": "{{TenantId}}"
+											},
+											{
+												"key": "X-Infor-Coleman-Identity2",
+												"value": "{{Identity2}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\n{\n  \"serviceCode\":\"{{serviceCode}}\",\n  \"serviceName\":\"{{serviceName}}\",\n  \"parameterList\":{{updatedParameterList}}\n} \n]"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/serviceconfigurations",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"serviceconfigurations"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "NegattiveTestCases",
+							"item": [
+								{
+									"name": "Invalid  parameters List",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "57221ad4-6b05-40d1-8fdd-c62321161ddb",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 400 Because Request parameters List does not have the valid keyNames\"] = responseCode.code === 400;",
+													"console.log(\"Request parameters List does not have the valid keyNames\");"
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "X-Infor-Coleman-TenantId",
+												"value": "{{TenantId}}"
+											},
+											{
+												"key": "X-Infor-Coleman-Identity2",
+												"value": "{{Identity2}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\n{\n  \"serviceCode\":\"{{serviceCode}}\",\n  \"serviceName\":\"{{serviceName}}\",\n  \"parameterList\":{}\n} \n\n]"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/serviceconfigurations",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"serviceconfigurations"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Required request body is missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "ef7c5866-6b4e-43c9-8893-6ef58cbef171",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 400 Because Required request body is missing\"] = responseCode.code === 400;",
+													"console.log(\"Required request body is missing\");",
+													"    ",
+													"",
+													"",
+													""
+												]
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "eccf0d42-308d-4ac1-a90a-501b38d0cf32",
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "X-Infor-Coleman-TenantId",
+												"value": "{{TenantId}}"
+											},
+											{
+												"key": "X-Infor-Coleman-Identity2",
+												"value": "{{Identity2}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/serviceconfigurations",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"serviceconfigurations"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Add service configuration for all groups",
+					"item": [
+						{
+							"name": "PositiveTestCases",
+							"item": [
+								{
+									"name": "Add service configuration for all groups",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "0756a9e2-bd26-4561-9462-6f8b82dc0014",
+												"type": "text/javascript",
+												"exec": [
+													"try",
+													"{",
+													"    var response = JSON.parse(responseBody);",
+													"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+													"    tests[\"Body contains serviceConfiguration\"] = responseBody.has(\"serviceConfiguration\");",
+													"    tests[\"serviceConfiguration is not null\"] = response.serviceConfiguration !== (null) ;",
+													"    ",
+													"    tests[\"Body contains serviceConfigurationId\"] = responseBody.has(\"serviceConfigurationId\");",
+													"    tests[\"serviceConfigurationId is not null\"] = response.serviceConfigurationId !== (null) ;",
+													"    ",
+													"    tests[\"Body contains serviceName\"] = responseBody.has(\"serviceName\");",
+													"    tests[\"serviceName is not null\"] = response.serviceName !== (null) ;",
+													"    ",
+													"    tests[\"Body contains serviceCode\"] = responseBody.has(\"serviceCode\");",
+													"    tests[\"serviceCode is not null\"] = response.serviceCode !== (null) ;",
+													"    ",
+													"    tests[\"Body contains account\"] = responseBody.has(\"account\");",
+													"    tests[\"account is not null\"] = response.account !== (null) ;",
+													"    ",
+													"    tests[\"Body contains accountId\"] = responseBody.has(\"accountId\");",
+													"    tests[\"accountId is not null\"] = response.accountId !== (null) ;",
+													"",
+													"    tests[\"Body contains accountName\"] = responseBody.has(\"accountName\");",
+													"    tests[\"accountName is not null\"] = response.accountName !== (null) ;",
+													"",
+													"    tests[\"Body contains secretKey\"] = responseBody.has(\"secretKey\");",
+													"    tests[\"secretKey is not null\"] = response.secretKey !== (null) ;",
+													"",
+													"    tests[\"Body contains accessKey\"] = responseBody.has(\"accessKey\");",
+													"    tests[\"accessKey is not null\"] = response.accessKey !== (null) ;",
+													"",
+													"    ",
+													"    tests[\"parameterList is not null\"] = response.parameterList !== (null) ;",
+													"    tests[\"Body contains parameterList\"] = responseBody.has(\"parameterList\");",
+													"    ",
+													"    tests[\"Body contains 'key'\"] = responseBody.has(\"key\");",
+													"    tests[\"key is not null\"]=response.serviceConfigurationList.key !==(null);",
+													"    ",
+													"    tests[\"Body contains 'value'\"] = responseBody.has(\"value\");",
+													"    ",
+													"   ",
+													"}",
+													"catch(e)",
+													"{",
+													"    console.log(\"Failed to get endpoint response\");",
+													"}"
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Infor-Coleman-Identity2",
+												"value": "{{Identity2}}"
+											},
+											{
+												"key": "X-Infor-Coleman-TenantId",
+												"value": "{{TenantId}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"serviceName\":\"Testing_{{$timestamp}}\",\n\t\"parameterList\":\n\t{{updatedParameterList}}\n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/serviceconfigurations/{{serviceCode}}",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"serviceconfigurations",
+												"{{serviceCode}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "NegativeTestCases",
+							"item": [
+								{
+									"name": "Invalid  parameters List",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72f05c5f-885f-4940-a4e3-ef76fa581e92",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 400\"] = responseCode.code === 400;",
+													"console.log(\"Required request body is missing\");",
+													"    ",
+													"",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Infor-Coleman-Identity2",
+												"value": "{{Identity2}}"
+											},
+											{
+												"key": "X-Infor-Coleman-TenantId",
+												"value": "{{TenantId}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"serviceName\":\"Testing_{{$timestamp}}\",\n\t\"parameterList\":\n{}\n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/serviceconfigurations/{{serviceCode}}",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"serviceconfigurations",
+												"{{serviceCode}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Required request body is missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "bebaa7c8-c575-4946-9a11-85299e1b748f",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 400\"] = responseCode.code === 400;",
+													"console.log(\"Required request body is missing\");",
+													"    ",
+													"",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Infor-Coleman-Identity2",
+												"value": "{{Identity2}}"
+											},
+											{
+												"key": "X-Infor-Coleman-TenantId",
+												"value": "{{TenantId}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/serviceconfigurations/{{serviceCode}}",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"serviceconfigurations",
+												"{{serviceCode}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Add service configuration",
+					"item": [
+						{
+							"name": "PositiveTestCases",
+							"item": [
+								{
+									"name": "Add service configuration",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2b96204a-98c5-49a4-aa5b-9dc63173087b",
+												"type": "text/javascript",
+												"exec": [
+													"try {",
+													"",
+													"    if (pm.test(\"Status code is 200\", function() {",
+													"            pm.response.to.have.status(200);",
+													"        })) {",
+													"",
+													"        var response = JSON.parse(responseBody);",
+													"        tests[\"Body contains 'tenantId'\"] = responseBody.has(\"tenantId\");",
+													"        tests[\"tenantId is not null\"] = response.tenantId !== (null);",
+													"        ",
+													"        tests[\"Body contains 'serviceGroupId'\"] = responseBody.has(\"serviceGroupId\");",
+													"        tests[\"serviceGroupId is not null\"] = response.serviceGroupId !== (null);",
+													"    }",
+													"} catch (e) {",
+													"    console.log(e);",
+													"}"
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Infor-Coleman-Identity2",
+												"value": "{{Identity2}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "X-Infor-Coleman-TenantId",
+												"value": "{{TenantId}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"serviceName\":\"{{serviceName}}\",\r\n\t\"parameterList\":\r\n\t\t\t{{updatedParameterList}}\r\n\r\n} \r\n \r\n"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/serviceconfigurations/{{tenantId}}/{{serviceCode}}",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"serviceconfigurations",
+												"{{tenantId}}",
+												"{{serviceCode}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "NegativeTestCases",
+							"item": [
+								{
+									"name": "Invalid  parameters List",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "9dfeb083-4835-4c44-9963-b0f9b028a8f3",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 400\"] = responseCode.code === 400;",
+													"console.log(\"Request parameters List does not have the valid keyNames\");",
+													"    ",
+													"",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Infor-Coleman-Identity2",
+												"value": "{{Identity2}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "X-Infor-Coleman-TenantId",
+												"value": "{{TenantId}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"serviceName\":\"{{serviceName}}\",\r\n\t\"parameterList\":\r\n\t\r\n\t{}\r\n\t\r\n\r\n\t\r\n} \r\n \r\n"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/serviceconfigurations/{{tenantId}}/{{serviceCode}}",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"serviceconfigurations",
+												"{{tenantId}}",
+												"{{serviceCode}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Required request body is missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "abd48737-dd1e-49ca-bd4d-735e03b0a5fd",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 400\"] = responseCode.code === 400;",
+													"console.log(\"Request parameters List does not have the valid keyNames\");",
+													"    ",
+													"",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Infor-Coleman-Identity2",
+												"value": "{{Identity2}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											},
+											{
+												"key": "X-Infor-Coleman-TenantId",
+												"value": "{{TenantId}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/serviceconfigurations/{{tenantId}}/{{serviceCode}}",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"serviceconfigurations",
+												"{{tenantId}}",
+												"{{serviceCode}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Move service configurations",
+					"item": [
+						{
+							"name": "PositiveTestCases",
+							"item": [
+								{
+									"name": "Move service configurations",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "808f7e8d-bbfa-4ede-aa33-0adc805797c1",
+												"type": "text/javascript",
+												"exec": [
+													"try{",
+													"        ",
+													"         if(pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"}))",
+													"         {",
+													"              var response = JSON.parse(responseBody);",
+													"              tests[\"Body contains 'tenantId'\"] = responseBody.has(\"tenantId\");",
+													"              tests[\"tenantId is not null\"]=response.tenantId !==(null); ",
+													"         ",
+													"              tests[\"Body contains 'serviceGroupId'\"] = responseBody.has(\"serviceGroupId\");",
+													"              tests[\"serviceGroupId is not null\"]=response.serviceGroupId !==(null); ",
+													"         }",
+													"   ",
+													"}",
+													"",
+													"catch(e){",
+													"  ",
+													"    console.log(e);",
+													"}",
+													"",
+													"",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Infor-Coleman-Identity2",
+												"value": "{{Identity2}}"
+											},
+											{
+												"key": "X-Infor-Coleman-TenantId",
+												"value": "{{TenantId}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"sourceServiceName\":\"inforos-db.mingledev.infor.com\",\n\t\"targetServiceName\":\"targetServiceName\"\n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/serviceconfigurations/{{tenantId}}/{{serviceCode}}/move",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"serviceconfigurations",
+												"{{tenantId}}",
+												"{{serviceCode}}",
+												"move"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "NegativeTestCases",
+							"item": [
+								{
+									"name": "Source and target service names must be different",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b2f6ef0a-2cc8-479a-86c4-6486bd7b481e",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 400 and Source and Target Service Names Must be Different.\"] = responseCode.code === 400;",
+													"console.log(\"Source and Target Service Names Must be Different.\");",
+													"    ",
+													"",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Infor-Coleman-Identity2",
+												"value": "{{Identity2}}"
+											},
+											{
+												"key": "X-Infor-Coleman-TenantId",
+												"value": "{{TenantId}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"sourceServiceName\":\"\",\n\t\"targetServiceName\":\"\"\n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/serviceconfigurations/{{tenantId}}/{{serviceCode}}/move",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"serviceconfigurations",
+												"{{tenantId}}",
+												"{{serviceCode}}",
+												"move"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Required request body is missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "0146c6b9-00a0-4cc2-9e97-83bd40f1f70c",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 400 because Required request body is missing\"] = responseCode.code === 400;",
+													"console.log(\"Required request body is missing\");",
+													"    ",
+													"",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-Infor-Coleman-Identity2",
+												"value": "{{Identity2}}"
+											},
+											{
+												"key": "X-Infor-Coleman-TenantId",
+												"value": "{{TenantId}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/serviceconfigurations/{{tenantId}}/{{serviceCode}}/move",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"serviceconfigurations",
+												"{{tenantId}}",
+												"{{serviceCode}}",
+												"move"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Create default service group",
+					"item": [
+						{
+							"name": "PositiveTestCases",
+							"item": [
+								{
+									"name": "Create default service group",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d2b4f1be-dfef-417e-84e2-436f1bfb442c",
+												"type": "text/javascript",
+												"exec": [
+													"try{",
+													" ",
+													"",
+													"",
+													"   if(pm.test(\"Status code is 200\", function () {pm.response.to.have.status(200);})) ",
+													"   {",
+													"  ",
+													"     var response = JSON.parse(responseBody);",
+													"    ",
+													"    tests[\"Body contains 'serviceConfigurationList'\"] = responseBody.has(\"serviceConfiguration\");",
+													"    tests[\"serviceConfigurationList is not null\"] = response.serviceConfigurationList !== (null) ;",
+													"    ",
+													"    tests[\"Body contains 'serviceConfigurationId'\"] = responseBody.has(\"serviceConfigurationId\");",
+													"    tests[\"serviceConfigurationId is not null\"] = response.serviceConfigurationId !== (null);",
+													"    ",
+													"    tests[\"Body contains 'serviceName'\"] = responseBody.has(\"serviceName\");",
+													"    tests[\"serviceName is not null\"] = response.serviceName !== (null) ;",
+													"    ",
+													"    tests[\"Body contains 'serviceCode'\"] = responseBody.has(\"serviceCode\");",
+													"    tests[\"serviceCode is not null\"] = response.serviceCode !== (null) ;",
+													"    ",
+													"    tests[\"Body contains 'account'\"] = responseBody.has(\"account\");",
+													"    tests[\"account is not null\"]=response.serviceConfiguration.account !==(null); ",
+													"    ",
+													"    tests[\"Body contains accountId\"] = responseBody.has(\"accountId\");",
+													"    tests[\"accountId is not null\"] = response.accountId !== (null) ;",
+													"",
+													"    tests[\"Body contains accountName\"] = responseBody.has(\"accountName\");",
+													"    tests[\"accountName is not null\"] = response.accountName !== (null) ;",
+													"",
+													"    tests[\"Body contains secretKey\"] = responseBody.has(\"secretKey\");",
+													"    tests[\"secretKey is not null\"] = response.secretKey !== (null) ;",
+													"",
+													"    tests[\"Body contains accessKey\"] = responseBody.has(\"accessKey\");",
+													"    tests[\"accessKey is not null\"] = response.accessKey !== (null) ;",
+													"",
+													"    tests[\"Body contains 'parameterList'\"] = responseBody.has(\"parameterList\");",
+													"    tests[\"parameterList is not null\"]=response.serviceConfiguration.parameterList !==(null); ",
+													"    ",
+													"    tests[\"Body contains 'key'\"] = responseBody.has(\"key\");",
+													"    tests[\"key is not null\"]=response.serviceConfiguration.key !==(null);",
+													"    ",
+													"    tests[\"Body contains 'value'\"] = responseBody.has(\"value\");",
+													"   ",
+													"}",
+													"  ",
+													"}",
+													"catch(e){",
+													"   console.log(\"error\"+e);    ",
+													"   ",
+													"}"
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/xml, application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"serviceCode\":\"{{serviceCode}}\",\n\t\"serviceName\":\"TST_MingleSearchIndex_{{$timestamp}}\",\n\t\"parameterList\":\n\t\t\t{{updatedParameterList}}\n\t\t\t\n\t\n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/servicegroups/default/serviceconfigurations/{{serviceCode}}",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"servicegroups",
+												"default",
+												"serviceconfigurations",
+												"{{serviceCode}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "NegativeTestCases",
+							"item": [
+								{
+									"name": "Invalid  parameters List",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "ccfeacef-3681-473a-8c29-f8520dc06b69",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 400 Because Request parameters List does not have the valid keyNames\"] = responseCode.code === 400;",
+													"console.log(\"Request parameters List does not have the valid keyNames\");",
+													"    ",
+													"",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/xml, application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"serviceCode\":\"{{serviceCode}}\",\n\t\"serviceName\":\"TST_MingleSearchIndex_{{$timestamp}}\",\n\t\"parameterList\":\n\t\t{}\n\t\n}"
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/servicegroups/default/serviceconfigurations/{{serviceCode}}",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"servicegroups",
+												"default",
+												"serviceconfigurations",
+												"{{serviceCode}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Required request body is missing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72f5350a-d634-4e06-aaed-ad2362bc7eb8",
+												"type": "text/javascript",
+												"exec": [
+													"tests[\"Status code is 400 Because Required request body is missing\"] = responseCode.code === 400;",
+													"console.log(\"Required request body is missing\");",
+													"    ",
+													"",
+													"",
+													""
+												]
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/xml, application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "x-infor-authorization",
+												"value": "Bearer {{access_token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{albURL}}/api/v1/admin/servicegroups/default/serviceconfigurations/{{serviceCode}}",
+											"host": [
+												"{{albURL}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"admin",
+												"servicegroups",
+												"default",
+												"serviceconfigurations",
+												"{{serviceCode}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		}
+	]
+}
